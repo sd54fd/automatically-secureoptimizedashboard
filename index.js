@@ -1,24 +1,21 @@
-function canFinish(numCourses, prerequisites) {
-  const graph = new Map();
-  const visited = new Array(numCourses).fill(0);
-  for (const [course, prerequisite] of prerequisites) {
-    if (!graph.has(course)) graph.set(course, []);
-    graph.get(course).push(prerequisite);
-  }
-  for (let i = 0; i < numCourses; i++) {
-    if (!dfs(i)) return false;
-  }
-  return true;
-  function dfs(course) {
-    if (visited[course] === 1) return false;
-    if (visited[course] === -1) return true;
-    visited[course] = 1;
-    if (graph.has(course)) {
-      for (const prerequisite of graph.get(course)) {
-        if (!dfs(prerequisite)) return false;
-      }
+function permuteUnique(nums) {
+  const result = [];
+  nums.sort((a, b) => a - b);
+  backtrack([], new Array(nums.length).fill(false));
+  return result;
+  function backtrack(current, used) {
+    if (current.length === nums.length) {
+      result.push([...current]);
+      return;
     }
-    visited[course] = -1;
-    return true;
+    for (let i = 0; i < nums.length; i++) {
+      if (used[i] || (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]))
+        continue;
+      current.push(nums[i]);
+      used[i] = true;
+      backtrack(current, used);
+      current.pop();
+      used[i] = false;
+    }
   }
 }
