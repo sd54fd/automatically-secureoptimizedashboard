@@ -1,21 +1,35 @@
-function permuteUnique(nums) {
-  const result = [];
-  nums.sort((a, b) => a - b);
-  backtrack([], new Array(nums.length).fill(false));
-  return result;
-  function backtrack(current, used) {
-    if (current.length === nums.length) {
-      result.push([...current]);
-      return;
+const cycleSort = (arr) => {
+  for (let start = 0; start < arr.length - 1; start++) {
+    let item = arr[start];
+    let pos = start;
+    for (let i = start + 1; i < arr.length; i++) {
+      if (arr[i] < item) {
+        pos++;
+      }
     }
-    for (let i = 0; i < nums.length; i++) {
-      if (used[i] || (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]))
-        continue;
-      current.push(nums[i]);
-      used[i] = true;
-      backtrack(current, used);
-      current.pop();
-      used[i] = false;
+    if (pos === start) {
+      continue;
+    }
+    while (item === arr[pos]) {
+      pos++;
+    }
+    if (pos !== start) {
+      [item, arr[pos]] = [arr[pos], item];
+    }
+    while (pos !== start) {
+      pos = start;
+      for (let i = start + 1; i < arr.length; i++) {
+        if (arr[i] < item) {
+          pos++;
+        }
+      }
+      while (item === arr[pos]) {
+        pos++;
+      }
+      if (item !== arr[pos]) {
+        [item, arr[pos]] = [arr[pos], item];
+      }
     }
   }
-}
+  return arr;
+};
