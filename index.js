@@ -1,9 +1,11 @@
-function canJump(nums) {
-  let maxJump = 0;
-  for (let i = 0; i < nums.length; i++) {
-    if (i > maxJump) return false;
-    maxJump = Math.max(maxJump, i + nums[i]);
-    if (maxJump >= nums.length - 1) return true;
+function minMeetingRooms(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const minHeap = new MinHeap();
+  for (const interval of intervals) {
+    if (minHeap.size() > 0 && minHeap.peek() <= interval[0]) {
+      minHeap.pop();
+    }
+    minHeap.push(interval[1]);
   }
-  return false;
+  return minHeap.size();
 }
