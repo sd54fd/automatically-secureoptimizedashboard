@@ -1,20 +1,11 @@
-function findCircleNum(M) {
-  if (!M || M.length === 0) return 0;
-  const visited = new Array(M.length).fill(false);
-  let count = 0;
-  for (let i = 0; i < M.length; i++) {
-    if (!visited[i]) {
-      dfs(M, i, visited);
-      count++;
-    }
+function isPrime(n) {
+  if (n <= 1) return false;
+  if (n <= 3) return true;
+  if (n % 2 === 0 || n % 3 === 0) return false;
+  let i = 5;
+  while (i * i <= n) {
+    if (n % i === 0 || n % (i + 2) === 0) return false;
+    i += 6;
   }
-  return count;
-}
-function dfs(M, i, visited) {
-  visited[i] = true;
-  for (let j = 0; j < M.length; j++) {
-    if (M[i][j] === 1 && !visited[j]) {
-      dfs(M, j, visited);
-    }
-  }
+  return true;
 }
